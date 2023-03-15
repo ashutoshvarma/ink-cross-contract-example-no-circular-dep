@@ -2,32 +2,35 @@
 
 #[openbrush::contract]
 pub mod one {
-    use one_two_project::traits::two::TwoRef;
+    use one_two_project::traits::{one::*, two::*};
 
     #[ink(storage)]
-    pub struct One {
+    pub struct OneContract {
         strength: u16,
     }
 
-    impl One {
+    impl OneContract {
         #[ink(constructor)]
         pub fn new(s: u16) -> Self {
-            One { strength: s }
+            OneContract { strength: s }
+        }
+    }
+
+    impl One for OneContract {
+        #[ink(message)]
+        fn change(&mut self, l: u16) {
+            self.strength = l;
         }
 
         #[ink(message)]
-        pub fn change(&mut self, l: u16) {
-            self.strength = l;
-        }
-        #[ink(message)]
-        pub fn show(&self) -> u16 {
+        fn show(&self) -> u16 {
             self.strength
         }
 
         #[ink(message)]
-        pub fn change_two(&mut self, two: AccountId, l: u16) {
-            let one_instance: &TwoRef = &two;
-            one_instance.change(l);
+        fn change_two(&mut self, two: AccountId, l: u16) {
+            let two_instance: &TwoRef = &two;
+            two_instance.change(l);
         }
     }
 }

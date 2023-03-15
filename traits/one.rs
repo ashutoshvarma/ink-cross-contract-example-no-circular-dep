@@ -9,7 +9,7 @@ pub trait One {
     fn change(&mut self, l: u16);
 
     #[ink(message)]
-    fn show(&mut self) -> u16;
+    fn show(&self) -> u16;
 
     #[ink(message)]
     fn change_two(&mut self, two: AccountId, l: u16);
